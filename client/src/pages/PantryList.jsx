@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import AddItemForm from './AddItemForm';
+
+const Container = styled.div`
+    max-width: 800px;
+    margin: auto;
+`;
 
 const Item = styled.div`
     display: flex;
@@ -8,27 +14,36 @@ const Item = styled.div`
     outline: 1px solid gray;
     padding: 5px;
     justify-content: space-between;
-`
+`;
 const Name = styled.span`
     font-weight: bold;
-`
+`;
 
-const Category = (props) => {
-    return (
-        <div>
-            {props.name}
-        </div>
-    )
-}
+const Category = styled.div`
+    margin-top: 30px;
+    text-align: left;
+`;
 
 const PantryList = () => {
     const [items, setItems] = React.useState([]);
     const categories = [];
 
+    const [newItem, setNewItem] = useState({
+        name: '',
+        category: '',
+        quantity: 0
+    });
+
+    const handleChange = (attribute, value) => {
+        setNewItem({ ...newItem, [attribute]: value });
+    };
+
     const addItem = async (item) => {
         const newItem = await axios.post('/api/items', item);
-        setItems([...items, newItem.data]);
-        console.log(items);
+        setItems([...items, newItem.data].sort(function(a, b) {
+            return a.category.toLowerCase().localeCompare(b.category.toLowerCase());
+         }));
+        setNewItem(undefined);
     }    
 
     const deleteItem = async (id) => {
@@ -41,19 +56,22 @@ const PantryList = () => {
             const result = await axios(
                 '/api/items',
             );
-            console.log(result.data);
-            setItems(result.data);
+            const items = result.data.sort(function(a, b) {
+                return a.category.toLowerCase().localeCompare(b.category.toLowerCase());
+             });
+             console.log(items);
+            setItems(items);
         }
         fetchItems();
       }, [setItems]);
 
     return (
-        <div>
+        <Container>
             {items.map((i) => {
                 let categoryHeader = undefined;
                 if (!(categories.includes(i.category))) {
                     categoryHeader = (
-                        <Category name={i.category} />
+                        <Category>{i.category}</Category>
                     );
                     categories.push(i.category);
                 }
@@ -68,10 +86,11 @@ const PantryList = () => {
                 )
                 return [categoryHeader, item];
             })}
+            <AddItemForm handleChange={handleChange} />
             <button
-                onClick={() => addItem({ name: 'lettuce', quantity: 1, category: 'Produce' })}
+                onClick={() => addItem(newItem)}
             >add new</button>
-        </div>
+        </Container>
     );
     
 };
