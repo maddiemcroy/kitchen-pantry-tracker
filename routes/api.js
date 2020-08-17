@@ -20,8 +20,14 @@ router.post('/items', (req, res, next) => {
     }
 });
 
+router.post('/items/:id', (req, res, next) => {
+    Item.findByIdAndUpdate({'_id': req.params.id}, req.body)
+        .then(data => res.json(data))
+        .catch(next)
+})
+
 router.delete('/items/:id', (req, res, next) => {
-    Item.findOneAndDelete({"_id": req.params.id})
+    Item.findOneAndDelete({'_id': req.params.id})
         .then(data => res.json(data))
         .catch(next)
 })
