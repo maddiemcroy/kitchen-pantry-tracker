@@ -14,6 +14,14 @@ const ItemSchema = new Schema({
     category: {
         type: String,
         required: [false]
+    },
+    amount: {
+        type: Number,
+        required: [false]
+    },
+    units: {
+        type: String,
+        required: [false]
     }
 });
 
