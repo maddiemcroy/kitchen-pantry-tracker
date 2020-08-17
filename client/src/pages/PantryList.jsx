@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import AddItemForm from './AddItemForm';
 import { categoryColors } from '../utils';
 import IconButton from '../components/IconButton';
+import editIcon from '../assets/icons/edit.svg';
+import removeIcon from '../assets/icons/delete.svg';
 
 const Container = styled.div`
     max-width: 800px;
@@ -13,21 +15,24 @@ const Container = styled.div`
 const Item = styled.div`
     display: flex;
     margin: 10px;
-    /* outline: 1px solid gray; */
     padding: 5px 15px;
     justify-content: space-between;
     border-radius: 8px;
     box-shadow: 0px 0px 1px #aaa;
     align-items: center;
-    /* :hover {
-        box-shadow: 2px 2px 6px #cccccc;
-        transition: 200ms;
-    } */
 `;
 
 const Name = styled.span`
     font-weight: bold;
+    margin-right: 10px;
 `;
+
+const Amount = styled.span`
+    font-size: 0.8em;
+    text-align: left;
+    flex: 1;
+`;
+
 
 const CategorySection = styled.div`
     padding: 10px;
@@ -108,15 +113,16 @@ const PantryList = () => {
                                 return (
                                     <Item>
                                         <Name>{i.name}</Name>
-                                        <span>{i.quantity}</span>
-                                        <span>{i.amount} {i.units}</span>
+                                        <Amount>{i.amount} {i.units}</Amount>
                                         <div>
                                             <IconButton color={categoryColors[c]}
-                                                onClick={() => deleteItem(i)}
-                                            >-</IconButton>
+                                                onClick={() => console.log('edit')}
+                                                icon={editIcon}
+                                            />
                                             <IconButton color={categoryColors[c]}
                                                 onClick={() => deleteItem(i)}
-                                            >+</IconButton>
+                                                icon={removeIcon}
+                                            />
                                         </div>
                                     </Item>
                                 )

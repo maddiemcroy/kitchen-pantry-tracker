@@ -19,12 +19,18 @@ const StyledButton = styled.button`
     }
 `
 
+const Icon = styled.img`
+    height: 60%;
+    vertical-align: middle;
+`
+
 const IconButton = (props) => {
     return (
         <StyledButton
             color={props.color}
             onClick={props.onClick}
         >
+            {props.icon && <Icon src={props.icon} />}
             {props.children}
         </StyledButton>
     )

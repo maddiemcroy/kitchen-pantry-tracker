@@ -7,7 +7,7 @@ const Container = styled.div`
 `;
 
 const categories = ['Dairy', 'Produce', 'Meat', 'Frozen', 'Pantry', 'Other'];
-const units = ['N/A', 'oz', 'fl-oz'];
+const units = ['unit(s)', 'oz', 'fl-oz'];
 
 const AddItemForm = (props) => {
 
@@ -33,6 +33,7 @@ const AddItemForm = (props) => {
             </label>
             <label for='units'> 
                 <select onChange={(e) => props.handleChange('units', e.target.value)}>
+                    <option value=''></option>
                     {units.map((o) => (
                         <option value={o}>{o}</option>
                     ))}
