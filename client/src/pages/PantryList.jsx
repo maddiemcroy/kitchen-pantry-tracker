@@ -6,6 +6,8 @@ import { categoryColors } from '../utils';
 import IconButton from '../components/IconButton';
 import editIcon from '../assets/icons/edit.svg';
 import removeIcon from '../assets/icons/delete.svg';
+import EditItemModal from '../components/EditItemModal';
+import AddItemModal from '../components/AddItemModal';
 
 const Container = styled.div`
     max-width: 800px;
@@ -52,7 +54,6 @@ const CategoryHeader = styled.div`
 
 const PantryList = () => {
     const [items, setItems] = React.useState([]);
-
     const [newItem, setNewItem] = useState({
         name: '',
         category: '',
@@ -60,18 +61,19 @@ const PantryList = () => {
         amount: undefined,
         units: undefined
     });
+    const [editModalIsOpen, setEditModalOpen] = React.useState(false);
+    const [addModalIsOpen, setAddModalOpen] = React.useState(false);
 
     const handleChange = (attribute, value) => {
         setNewItem({ ...newItem, [attribute]: value });
     };
 
-    const addItem = async (item) => {
+    const addItem = async () => {
         console.log(items);
-        const newItem = await axios.post('/api/items', item);
+        const createdNewItem = await axios.post('/api/items', newItem);
         const updatedItems = JSON.parse(JSON.stringify(items)); //to deep copy
-        updatedItems[newItem.data.category.toLowerCase()].push(newItem.data);
+        updatedItems[createdNewItem.data.category.toLowerCase()].push(createdNewItem.data);
         setItems(updatedItems);
-        console.log(items);
     }    
 
     const deleteItem = async (item) => {
@@ -104,6 +106,19 @@ const PantryList = () => {
 
     return (
         <Container>
+        <EditItemModal
+            isOpen={editModalIsOpen}
+            onRequestClose={() => setEditModalOpen(false)}
+        />
+        <AddItemModal
+            isOpen={addModalIsOpen}
+            onRequestClose={() => setAddModalOpen(false)}
+            handleChange={handleChange}
+            onSubmit={() => {
+                addItem();
+                setAddModalOpen(false);
+            }}
+        />
             {Object.keys(items).map((c) => {
                 if (items[c].length > 0) {
                     return (
@@ -116,7 +131,7 @@ const PantryList = () => {
                                         <Amount>{i.amount} {i.units}</Amount>
                                         <div>
                                             <IconButton color={categoryColors[c]}
-                                                onClick={() => console.log('edit')}
+                                                onClick={() => setEditModalOpen(true)}
                                                 icon={editIcon}
                                             />
                                             <IconButton color={categoryColors[c]}
@@ -131,9 +146,8 @@ const PantryList = () => {
                     )
                 } 
             })}
-            <AddItemForm handleChange={handleChange} />
             <button
-                onClick={() => addItem(newItem)}
+                onClick={() => setAddModalOpen(true)}
             >add new</button>
         </Container>
     );
