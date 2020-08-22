@@ -1,17 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Form = styled.div`
     margin: 20px;
-    padding: 10px;
+    padding: 10px;  
+    display: flex;
+    justify-content: center;
 `;
 
 const FormElement = styled.div`
-    margin: 10px 0px;
+    margin: 10px;
 `;
 
 const Label = styled.label`
     margin-right: 5px;
+`;
+
+const Amount = styled.input`
+    width: 30px;
 `;
 
 const categories = ['Dairy', 'Produce', 'Meat', 'Frozen', 'Pantry', 'Other'];
@@ -20,8 +26,7 @@ const units = ['unit(s)', 'oz', 'fl-oz'];
 const AddItemForm = (props) => {
 
     return (
-        <Container>
-            <h3>Add new item</h3>
+        <Form>
             <FormElement>
                 <Label for='name'>Name:</Label>
                     <input type='text' onChange={(e) => props.handleChange('name', e.target.value)}></input>
@@ -37,7 +42,7 @@ const AddItemForm = (props) => {
             </FormElement>
             <FormElement>
                 <Label for='amount'>Amount:</Label>
-                    <input onChange={(e) => props.handleChange('amount', e.target.value)}></input>
+                    <Amount onChange={(e) => props.handleChange('amount', e.target.value)}></Amount>
                     <select onChange={(e) => props.handleChange('units', e.target.value)}>
                         <option value=''></option>
                         {units.map((o) => (
@@ -45,8 +50,7 @@ const AddItemForm = (props) => {
                         ))}
                     </select>
             </FormElement>
-            <button onClick={props.onSubmit}>add</button>
-        </Container>
+        </Form>
     );
 
 };

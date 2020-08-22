@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import AddItemForm from './AddItemForm';
 import { categoryColors } from '../utils';
+import Button from '../components/Button'
 import IconButton from '../components/IconButton';
 import editIcon from '../assets/icons/edit.svg';
 import removeIcon from '../assets/icons/delete.svg';
@@ -119,6 +119,17 @@ const PantryList = () => {
                 setAddModalOpen(false);
             }}
         />
+        <Button
+            color='#00db63'
+            onClick={() => setAddModalOpen(true)}
+        >
+            Add new ingredients
+        </Button>
+        <Button
+            color='#d9325e'
+        >
+            Log used ingredients
+        </Button>
             {Object.keys(items).map((c) => {
                 if (items[c].length > 0) {
                     return (
@@ -146,9 +157,6 @@ const PantryList = () => {
                     )
                 } 
             })}
-            <button
-                onClick={() => setAddModalOpen(true)}
-            >add new</button>
         </Container>
     );
     
