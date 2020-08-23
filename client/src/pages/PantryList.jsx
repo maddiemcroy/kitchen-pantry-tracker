@@ -70,9 +70,12 @@ const PantryList = () => {
 
     const addItem = async () => {
         console.log(items);
-        const createdNewItem = await axios.post('/api/items', newItem);
+        const createdNewItems = await axios.post('/api/items', [newItem]);
+        console.log(createdNewItems);
         const updatedItems = JSON.parse(JSON.stringify(items)); //to deep copy
-        updatedItems[createdNewItem.data.category.toLowerCase()].push(createdNewItem.data);
+        createdNewItems.data.forEach(item => {
+            updatedItems[item.category.toLowerCase()].push(item);
+        });
         setItems(updatedItems);
     }    
 

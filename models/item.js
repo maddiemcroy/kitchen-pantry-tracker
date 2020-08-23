@@ -7,21 +7,17 @@ const ItemSchema = new Schema({
         type: String,
         required: [true, 'The item name field is required']
     },
-    quantity: {
-        type: Number,
-        required: [false]
-    },
     category: {
         type: String,
-        required: [false]
+        required: [true, 'The category field is required']
     },
     amount: {
         type: Number,
-        required: [false]
+        required: [true, 'The amount field is required']
     },
     units: {
         type: String,
-        required: [false]
+        required: [true, 'The units field is required']
     }
 });
 

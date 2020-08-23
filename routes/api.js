@@ -9,15 +9,9 @@ router.get('/items', (req, res, next) => {
 });
 
 router.post('/items', (req, res, next) => {
-    if(req.body.name){
-        Item.create(req.body)
-            .then(data => res.json(data))
-            .catch(next)
-    } else {
-        res.json({
-            error: "The input field is empty"
-        })
-    }
+    Item.create(req.body)
+        .then(data => res.json(data))
+        .catch(next)
 });
 
 router.post('/items/:id', (req, res, next) => {
